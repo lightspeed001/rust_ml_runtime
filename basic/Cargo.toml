@@ -1,0 +1,4 @@
+[dependencies]
+tch = "0.13"
+tract-onnx = "0.15"
+

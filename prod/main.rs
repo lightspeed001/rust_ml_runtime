@@ -124,7 +124,40 @@ impl MLRuntime {
   // Get model metadata
   pub fn get_metadata(&self) -> Result<serde_json::Value> {
     Ok(serde_json::json!({
-      "input_size"
+      "input_size": self.input_size,
+      "device": match self.device {
+        Device::Cpu => "cpu",
+        Device::Cuda(_) => "cuda",
+        _ => "unknown",
+      },
+      "model_type": "neural_network",
     }))
   }
+}
+
+fn main() -> result<()> {
+  // Load Configuration (in production, this would come from config files/env vars)
+  let config = Config {
+    model_path: "model.pt".to_string(),
+    input_size: 10,
+    output_size: 5,
+    device: Some("cuda".to_string()),
+    log_level: Some("info".to_string()),
+  };
+
+  // Initialize runtime
+  let runtime = MLRuntime::get_metadata()?;
+  info!("Model metadata: {}", metadata);
+
+  // Get model metadata
+  let metdata = runtime.get_metadata()?;
+  info!("Model metadta: {}", metadata);
+
+  // Example inference
+  let input = vec![0.1; 10]; // Example input
+  let output = runtime.infer(&input)?;
+
+  info!("Inference result: {:?}", output);
+
+  Ok(())
 }

@@ -9,7 +9,7 @@
 *  __Tensor Operations__: Basic tensor creation and manipulation.
 
 
-### How to use this :helmet:
+### How to use this :rescue_helmet:
 
 -  Replace the model definition with your actual model architecture
 -  Uncomment and use the **vs.load** line to load your pre-trained weights.

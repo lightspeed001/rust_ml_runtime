@@ -1,0 +1,49 @@
+graph TD
+    subgraph "User"
+        U[Client] -->|HTTPS| I[GCP Load Balancer]
+    end
+
+    subgraph "GKE Cluster"
+        I -->|Routes| S[Service: ml-runtime-prod]
+        S -->|Forwards| D[Deployment: ml-runtime-prod]
+        D -->|Runs| P1[Pod 1]
+        D -->|Runs| P2[Pod 2]
+        D -->|Runs| P3[Pod 3]
+    end
+
+    subgraph "Pod Architecture"
+        P1 -->|Mounts| PVC[PersistentVolumeClaim: model-pvc]
+        P1 -->|Exposes| M[Metrics: 9090]
+        P1 -->|Exposes| H[HTTP: 8080]
+        P1 -->|Uses| GPU[NVIDIA GPU]
+    end
+
+    subgraph "Monitoring"
+        M -->|Scrapes| PM[Prometheus]
+        PM -->|Visualizes| GM[Grafana]
+        GM -->|Alerts| SNS[Slack/Email]
+    end
+
+    subgraph "CI/CD"
+        SCM[GitHub] -->|Triggers| CB[Cloud Build]
+        CB -->|Builds| IM[Container Image]
+        CB -->|Deploys| GKE[GKE Cluster]
+    end
+
+    style U fill:#f96,stroke:#333
+    style I fill:#6af,stroke:#333
+    style S fill:#6af,stroke:#333
+    style D fill:#6af,stroke:#333
+    style P1 fill:#6af,stroke:#333
+    style P2 fill:#6af,stroke:#333
+    style P3 fill:#6af,stroke:#333
+    style PVC fill:#bbf,stroke:#333
+    style M fill:#bbf,stroke:#333
+    style H fill:#bbf,stroke:#333
+    style GPU fill:#bbf,stroke:#333
+    style PM fill:#f96,stroke:#333
+    style GM fill:#f96,stroke:#333
+    style SNS fill:#f96,stroke:#333
+    style SCM fill:#f96,stroke:#333
+    style CB fill:#f96,stroke:#333
+    style IM fill:#f96,stroke:#333

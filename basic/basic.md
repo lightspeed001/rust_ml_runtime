@@ -10,11 +10,11 @@ graph TD
         D -->|Outputs| E[Prints Results]
     end
 
-    style A fill:#f9f,stroke:#333
-    style B fill:#bbf,stroke:#333
-    style C fill:#bbf,stroke:#333
-    style D fill:#bbf,stroke:#333
-    style E fill:#bbf,stroke:#333
+    style A fill:#BA673D,stroke:#333
+    style B fill:#3D8ABA,stroke:#333
+    style C fill:#3D8ABA,stroke:#333
+    style D fill:#3D8ABA,stroke:#333
+    style E fill:#3D8ABA,stroke:#333
 ```
 
 ### Key Considerations :pen:

@@ -25,11 +25,64 @@ graph TD
 *  __Tensor Operations__: Basic tensor creation and manipulation.
 
 
-### How to use this :rescue_worker_helmet:
+### Deployment Instructions (k3s) :cloud:
 
--  Replace the model definition with your actual model architecture
--  Uncomment and use the **vs.load** line to load your pre-trained weights.
--  Adjust input dimensions to match your model's expected input.
+> __Build and Push Docker Image__
+
+```sh
+# Build
+docker build -t your-registry/ml-runtime:latest .
+
+# Push to registry
+docker push your-registry/ml-runtime:latest
+
+```
+
+> Apply Kubernetes Configs
+
+```sh
+# Create namespace (optional)
+kubectl create namespace ml-runtime
+
+# Apply configs
+kubectl apply -f pvc.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f ingress.yaml  # If using ingress
+
+```
+
+> Verify Deployment
+
+```sh
+# Check pods
+kubectl get pods -n ml-runtime
+
+# Check logs
+kubectl logs -l app=ml-runtime -n ml-runtime
+
+# Port-forward for testing
+kubectl port-forward svc/ml-runtime 8080:80
+
+```
+
+> Update Deployment for GPU
+
+```yaml
+# In deployment.yaml, add:
+resources:
+  limits:
+    nvidia.com/gpu: 1  # Request 1 GPU
+
+```
+
+> Install NVIDIA Device Plugin (k3s)
+
+```sh
+kubectl apply -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.14.1/nvidia-device-plugin.yml
+
+```
+
 
 
 

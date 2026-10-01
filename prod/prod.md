@@ -1,6 +1,9 @@
 # /basic/prod.md
 ## Production grade ML Runtime in Rust
 
+```mermaid
+```
+
 ### Key Considerations :pen:
 
 1. **High Availability**: 3+ replicas with rolling updates.
